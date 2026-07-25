@@ -1,33 +1,54 @@
-import { useState } from "react";
+import { useState ,useReducer} from "react";
+
+function reducer(state, action) {
+  // return state+action;
+  console.log("state", state, "action", action);
+  if(action.type==="increment"){
+    return state+action.payload;
+  }
+  if(action.type==="decrement"){
+    return state-action.payload;
+  }
+  if(action.type==="setcount"){
+    return action.payload;
+
+  }
+
+}
 
 function DateCounter() {
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
   const [step, setStep] = useState(1);
 
   // This mutates the date object.
   const date = new Date("june 21 2027");
   date.setDate(date.getDate() + count);
 
+  // payload is optional we can remove it and just use direct values
   const dec = function () {
+    dispatch({type: "decrement", payload: 1})
     // setCount((count) => count - 1);
-    setCount((count) => count - step);
+    // setCount((count) => count - step);
   };
 
   const inc = function () {
+    dispatch({type: "increment", payload: 1})
     // setCount((count) => count + 1);
-    setCount((count) => count + step);
+    // setCount((count) => count + step);
   };
 
   const defineCount = function (e) {
-    setCount(Number(e.target.value));
+    // setCount(Number(e.target.value));
+  dispatch({type: "setcount", payload: Number(e.target.value)})
   };
+
 
   const defineStep = function (e) {
     setStep(Number(e.target.value));
   };
 
   const reset = function () {
-    setCount(0);
+    // setCount(0);
     setStep(1);
   };
 

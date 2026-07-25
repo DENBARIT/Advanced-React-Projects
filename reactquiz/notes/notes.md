@@ -1,0 +1,1 @@
+reducer=>previous state and action as an argument and return the next state 
