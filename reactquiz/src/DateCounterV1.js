@@ -1,42 +1,38 @@
-import { useReducer} from "react";
-const initialState = { count: 0, step: 1 };
+import { useState ,useReducer} from "react";
 
 function reducer(state, action) {
-console.log(state,action);
-  switch (action.type) {
-case "increment":
-    return {...state,count:state.count + state.step};
-    case "decrement":
-    return {...state,count:state.count - state.step}; 
-    case  "setcount":
-    return {...state,count:action.payload};
-    case  "setstep":
-return {...state,step:action.payload};
-case "setreset":
-    return {initialState};
-default:
-    throw new Error("Unknown action type: " + action.type);
+  // return state+action;
+  console.log("state", state, "action", action);
+  if(action.type==="increment"){
+    return state+action.payload;
+  }
+  if(action.type==="decrement"){
+    return state-action.payload;
+  }
+  if(action.type==="setcount"){
+    return action.payload;
 
-    }
+  }
+
 }
 
 function DateCounter() {
-  
-  const [state, dispatch] = useReducer(reducer, initialState);
-const { count, step } = state;
+  // const [count, setCount] = useState(0);
+  const [step, setStep] = useState(1);
+const [count, dispatch] = useReducer(reducer, 0);
   // This mutcates the date object.
   const date = new Date("june 21 2027");
   date.setDate(date.getDate() + count);
 
   // payload is optional we can remove it and just use direct values
   const dec = function () {
-    dispatch({type: "decrement"})
+    dispatch({type: "decrement", payload: 1})
     // setCount((count) => count - 1);
     // setCount((count) => count - step);
   };
 
   const inc = function () {
-    dispatch({type: "increment"})
+    dispatch({type: "increment", payload: 1})
     // setCount((count) => count + 1);
     // setCount((count) => count + step);
   };
@@ -48,12 +44,12 @@ const { count, step } = state;
 
 
   const defineStep = function (e) {
-    dispatch({type: "setstep", payload: Number(e.target.value)})
-    // setStep(Number(e.target.value));
+    setStep(Number(e.target.value));
   };
 
   const reset = function () {
-    dispatch({type:"setreset"})
+    // setCount(0);
+    setStep(1);
   };
 
   return (
