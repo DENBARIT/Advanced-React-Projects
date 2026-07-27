@@ -1,0 +1,26 @@
+{
+  "Print to console": {
+    "prefix": "cl",
+    "scope": "javascript,typescript,javascriptreact",
+    "body": ["console.log($1)"],
+    "description": "console.log"
+  },
+
+  "React Functional Component": {
+    "prefix": "rfc",
+    "scope": "javascript,typescript,javascriptreact",
+    "body": [
+      "function ${1:${TM_FILENAME_BASE}}()",
+      "{",
+      "\treturn (",
+      "\t\t<div>",
+      "\t\t\t$0",
+      "\t\t</div>",
+      "\t);",
+      "}",
+      "",
+      "export default ${1:${TM_FILENAME_BASE}}"
+    ],
+    "description": "Create a default React functional component named after the file"
+  }
+}
