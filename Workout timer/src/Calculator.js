@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import clickSound from './ClickSound.m4a';
-
+import { memo } from 'react';
 function Calculator({ workouts, allowSound }) {
   const [number, setNumber] = useState(workouts.at(0).numExercises);
   const [sets, setSets] = useState(3);
@@ -78,4 +78,4 @@ function Calculator({ workouts, allowSound }) {
   );
 }
 
-export default Calculator;
+export default memo(Calculator);
