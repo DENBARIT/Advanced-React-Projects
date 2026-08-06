@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react';
 import clickSound from './ClickSound.m4a';
-import { memo } from 'react';
+import { memo,useCallback } from 'react';
 function Calculator({ workouts, allowSound }) {
   const [number, setNumber] = useState(workouts.at(0).numExercises);
   const [sets, setSets] = useState(3);
@@ -10,22 +10,40 @@ const [duration, setDuration] = useState(0);
   // const duration = (number * sets * speed) / 60 + (sets - 1) * durationBreak;
   const mins = Math.floor(duration);
   const seconds = (duration - mins) * 60;
+// we have to use useCallback because the playSound function is dependent on the allowSound state so we have to use useCallback to memoize the function so that it doesn't get recreated on every render and cause unnecessary re-renders of the component
+  // const playSound = useCallback(function () {
+  //   if (!allowSound) return;
+  //   const sound = new Audio(clickSound);
+  //   sound.play();
+  // }, [allowSound]);
 
-  const playSound = function () {
+  // ****Here updating one state causes two renders one for the state change and one since the effet will run after the render has completed because the duration  state change cause another rerendering 
+
+// We have to use playsound as a dependency because the playsound is a ****reactive value**** since it is dependent on the allowSound state so we have to use as depenceny array
+  
+// here  inside the useEffect we are updating the duration and playsound so  there when the allown sound changes the componnet rerenders causing the duration to reset and which is unwanted 
+useEffect(function () {
+setDuration((number * sets * speed) / 60 + (sets - 1) * durationBreak);
+// playSound();
+// },[number, sets, speed, durationBreak,playSound]);
+},[number, sets, speed, durationBreak]);
+
+useEffect(function () {
+    const playSound = function () {
     if (!allowSound) return;
     const sound = new Audio(clickSound);
     sound.play();
-  };
-
-  // ****Here updating one state causes two renders one for the state change and one since the effet will run after the render has completed because the duration  state change cause another rerendering 
-useEffect(function () {
-setDuration((number * sets * speed) / 60 + (sets - 1) * durationBreak);
-},[number, sets, speed, durationBreak]);
+ } 
+playSound();
+}, [duration,allowSound])
 function handleInc(){
   setDuration((duration) => Math.floor(duration) + 1);
+  // playSound();
 }  
 function handleDec(){
   setDuration((duration) =>( duration>1? Math.ceil(duration) - 1 : 0));
+
+  // playSound();
 }
 return (
   
