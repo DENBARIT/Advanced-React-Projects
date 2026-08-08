@@ -45,6 +45,11 @@ function handleDec(){
 
   // playSound();
 }
+// Closure in practivce the useEffect hook if we donot specify the dependency array in  advance it gets a stale closure of the state from where the function was created
+useEffect(function () {
+  console.log(duration,sets);
+  document.title=`Your ${number}-exercises workout`
+},[duration]);
 return (
   
     <>
